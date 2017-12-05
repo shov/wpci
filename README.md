@@ -1,8 +1,8 @@
-#WPCI
+# WPCI
 
 WordPress Continuous Integration
 
-###Lets start
+### Lets start
 * Start with `composer install`, it will download wordpress to `./wordpress`, and other required packages to `./vendor`
 * The next step is run docker containers, to start application locally. You should have installed docker-ce and docker-compose as well. 
 `cd ./docker-config` and start docker with `docker-compose up --build -d` 
