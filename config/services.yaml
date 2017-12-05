@@ -1,0 +1,7 @@
+services:
+  Wpci\Core\:
+    resource: '../core/*'
+    exclude: '../core/App.php'
+
+  Wpci\Core\WpFrontController:
+    public: true
