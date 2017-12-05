@@ -1,6 +1,7 @@
 .idea
 /vendor
 /wordpress
+!/wordpress/wp-content/themes/wpci
 /docker-config/db
 /docker-config/.env
 /src/front/psd/
