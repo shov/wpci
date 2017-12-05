@@ -1,0 +1,6 @@
+{
+    "require": {
+        "johnpbloch/wordpress": "^4.9",
+        "pug-php/pug": "^3.1"
+    }
+}

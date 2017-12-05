@@ -1,0 +1,49 @@
+version: '2'
+
+services:
+  web:
+    image: nginx:latest
+    container_name: "nginx"
+    ports:
+      - "80:80"
+    env_file: .env
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+    links:
+      - php
+    volumes_from:
+      - app-data
+
+  php:  
+    build: ./php/
+    container_name: "php-fpm"
+    env_file: .env
+    expose:
+      - 9000
+    links:
+      - mysql
+    volumes_from:
+      - app-data
+
+  mysql:
+    image: mysql:latest
+    volumes_from:
+      - mysql-data
+    container_name: "mysql"
+    ports:
+      - "3306:3306"
+    env_file: .env
+
+  app-data:
+    image: php:7.0-fpm
+    container_name: "app-data"
+    volumes:
+      - ../:/var/www/html
+    command: "true"
+
+  mysql-data:
+    image: mysql:latest
+    container_name: "mysql-data"
+    volumes:
+      - ${PERSISTENT_DB}:/var/lib/mysql
+    command: "true"
