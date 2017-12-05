@@ -22,3 +22,4 @@ bower_components/
 assets/data/
 bash.exe.stackdump
 *.log
+*.log.*
