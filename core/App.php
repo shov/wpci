@@ -8,6 +8,7 @@ use Monolog\Logger;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use wpdb;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -26,6 +27,9 @@ final class App
     {
         $this->container = new ContainerBuilder();
 
+        /**
+         * Logs
+         */
         /** @var Logger $logger */
         $logger = new Logger('general');
 
@@ -33,12 +37,24 @@ final class App
         $debugHandler->setFormatter(new HtmlFormatter());
         $logger->pushHandler($debugHandler);
 
-        $eerorHandler = new StreamHandler($this->getProjectRoot() . '/error.log.html', $logger::ERROR);
-        $eerorHandler->setFormatter(new HtmlFormatter());
-        $logger->pushHandler($eerorHandler);
+        $errorHandler = new StreamHandler($this->getProjectRoot() . '/error.log.html', $logger::ERROR);
+        $errorHandler->setFormatter(new HtmlFormatter());
+        $logger->pushHandler($errorHandler);
 
-        $this->container->set('logger', $logger);
+        $this->container->set('Logger', $logger);
 
+        /**
+         * Wordpress
+         */
+        global $wpdb;
+        global $wp_query;
+
+        $this->container->set(wpdb::class, $wpdb);
+        $this->container->set("wp.query", $wp_query);
+
+        /**
+         * Config
+         */
         $serviceConfigLoader = new YamlFileLoader($this->container, new FileLocator($this->getConfigPath()));
         $serviceConfigLoader->load('services.yaml');
 
@@ -57,7 +73,7 @@ final class App
 
         } catch (\Throwable $e) {
             /** @var Logger $logger */
-            $logger = $this->container->get('logger');
+            $logger = $this->container->get('Logger');
             $logger->error($e->getMessage(), [
                 'stacktrace' => $e->getTrace(),
             ]);

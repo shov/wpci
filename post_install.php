@@ -22,24 +22,34 @@ if (!is_dir($themeFolder)) {
 }
 
 /**
- * index.php, to start Wpci Application
+ * functions.php, to start Wpci Application
  */
-$indexPhpPath = $themeFolder . '/index.php';
-$indexPhpContent = <<<'END'
+$functionsPhpPath = $themeFolder . '/functions.php';
+$functionsPhpContent = <<<'END'
 <?php
 /**
  * Load wpci app
  */
 
-$app = require(ABSPATH . '/../app/App.php');
+$app = require(ABSPATH . '/../core/App.php');
 $app->run();
 END;
 
-file_put_contents($indexPhpPath, $indexPhpContent);
+file_put_contents($functionsPhpPath, $functionsPhpContent);
 
 /**
  * Just stubs to guarantee WP correct work
  */
+$indexPhpPath = $themeFolder . '/index.php';
+$indexPhpContent = <<<'END'
+<?php
+/**
+ * Keep the silence
+ */
+END;
+
+file_put_contents($indexPhpPath, $indexPhpContent);
+
 $styleSheetsStubPath = $themeFolder . '/style.css';
 $styleSheetsStubContent = <<<'END'
 /*

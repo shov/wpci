@@ -1,6 +1,8 @@
 <?php declare(strict_types=1);
 
 namespace Wpci\Core;
+use Symfony\Component\DependencyInjection\Container;
+use wpdb;
 
 /**
  * Front controller for already routed request from wordpress
@@ -9,9 +11,12 @@ namespace Wpci\Core;
  */
 class WpFrontController
 {
-    public function __construct()
+    /** @var Container  */
+    protected $container;
+
+    public function __construct(Container $container)
     {
-        //add_action('template_redirect', [$this, 'routingCallback']);
+        $this->container = $container;
     }
 
     /**
@@ -19,6 +24,14 @@ class WpFrontController
      */
     public function routing()
     {
-        echo "Hey there!";
+        static $started = false;
+        if(!$started) {
+            $started = true;
+
+            add_action('template_redirect', function () {
+                dump($this->container->get("wp.query"));
+                dump($this->container->get(wpdb::class));
+            });
+        }
     }
 }

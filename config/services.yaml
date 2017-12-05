@@ -5,3 +5,4 @@ services:
 
   Wpci\Core\WpFrontController:
     public: true
+    arguments: ['@service_container']
