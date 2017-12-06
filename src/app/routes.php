@@ -24,3 +24,9 @@ RouterStore::add(
     new Action(PagesController::class . '::single'),
     'pages.post'
 );
+
+RouterStore::add(
+    new WpQueryCondition('single', ['name' => 'hello-world']),
+    new Action(PagesController::class . '::helloWorld'),
+    'pages.post.hello_world'
+);

@@ -1,8 +1,10 @@
 <?php declare(strict_types=1);
 
 namespace Wpci\Core;
+
 use Wpci\Core\Contracts\Action;
 use Wpci\Core\Contracts\RouteCondition;
+use Wpci\Core\Http\WpQueryCondition;
 
 /**
  * Class Route
@@ -46,6 +48,8 @@ class RouterStore
      */
     public function makeBinding()
     {
+        $this->sortByConditionPriority();
+
         foreach ($this->routes as $route) {
             /** @var RouteCondition $condition */
             $condition = $route['condition'];
@@ -55,5 +59,60 @@ class RouterStore
 
             $condition->bindWithAction($action);
         }
+    }
+
+    /**
+     * Sort routes by priority
+     */
+    protected function sortByConditionPriority()
+    {
+        //Split
+        $wpQueryRoutes = [];
+        $otherRoutes = [];
+
+        foreach ($this->routes as $key => $curRoute)
+        {
+            if($curRoute['condition'] instanceof WpQueryCondition) {
+                if(!is_numeric($key)) {
+                    $wpQueryRoutes[$key] = $curRoute;
+                } else {
+                    $wpQueryRoutes[] = $curRoute;
+                }
+            } else {
+                if(!is_numeric($key)) {
+                    $otherRoutes[$key] = $curRoute;
+                } else {
+                    $otherRoutes[] = $curRoute;
+                }
+            }
+        }
+
+        //Sort wpQueryRoutes
+        uasort($wpQueryRoutes, function($a, $b) {
+            /** @var WpQueryCondition $aCondition */
+            $aCondition = $a['condition'];
+
+            /** @var WpQueryCondition $bCondition */
+            $bCondition = $b['condition'];
+
+            $aQueryParamsCount = count($aCondition->getQueryParams());
+            $bQueryParamsCount = count($bCondition->getQueryParams());
+
+            $qpFactor = $aQueryParamsCount - $bQueryParamsCount;
+
+            if(0 !== $qpFactor) {
+                return -$qpFactor;
+            }
+
+            $aKeywordsCount = count($aCondition->getKeywords());
+            $bKeywordsCount = count($bCondition->getKeywords());
+
+            $kwFactor = $aKeywordsCount - $bKeywordsCount;
+
+            return $kwFactor;
+        });
+
+        //Glue back
+        $this->routes = array_merge($otherRoutes, $wpQueryRoutes);
     }
 }

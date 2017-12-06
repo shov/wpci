@@ -39,4 +39,14 @@ class PagesController
 
         return new Response(ob_get_clean());
     }
+
+    public function helloWorld(\WP_Query $query): Response
+    {
+        ob_start();
+
+        echo "Hello World";
+        dump($query);
+
+        return new Response(ob_get_clean());
+    }
 }

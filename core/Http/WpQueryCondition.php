@@ -38,11 +38,11 @@ class WpQueryCondition implements RouteCondition
     public function bindWithAction(Action $action)
     {
         add_action('template_redirect', function () use ($action) {
-            $gotKeyword = $this->parseKeywords($this->wpQuery);
+            $gotKeywords = $this->parseKeywords();
 
             $haveToBind = false;
             foreach ($this->keywords as $keyword) {
-                $haveToBind = in_array($keyword, $gotKeyword) || $haveToBind;
+                $haveToBind = in_array($keyword, $gotKeywords) || $haveToBind;
             }
 
             if ($haveToBind) {
@@ -61,19 +61,35 @@ class WpQueryCondition implements RouteCondition
                 }
             }
 
-            if($haveToBind) {
+            if ($haveToBind) {
                 $action->call($this->wpQuery)->send();
             }
         });
     }
 
     /**
-     * Build array of keywords to condition comparation
-     * @param \WP_Query $wpq
      * @return array
      */
-    protected function parseKeywords(\WP_Query $wpq): array
+    public function getKeywords(): array
     {
+        return $this->keywords;
+    }
+
+    /**
+     * @return array
+     */
+    public function getQueryParams(): array
+    {
+        return $this->queryParams;
+    }
+
+    /**
+     * Set array of keywords to condition comparation
+     * @return array
+     */
+    protected function parseKeywords(): array
+    {
+        $wpq = $this->wpQuery;
         $keywords = [];
         if ($wpq->is_single) $keywords[] = 'single';
         if ($wpq->is_preview) $keywords[] = 'preview';
