@@ -12,16 +12,4 @@ use Wpci\Core\Http\WpQueryCondition;
  */
 class AppMake
 {
-    public static function Action($reference): Action
-    {
-        /**
-         * TODO: change this behaviour
-         */
-        return new Action($reference);
-    }
-
-    public static function WpQueryCondition(): WpQueryCondition
-    {
-        return App::get(WpQueryCondition::class);
-    }
 }

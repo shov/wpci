@@ -3,14 +3,24 @@
 namespace Wpci\App;
 
 use Wpci\App\Pages\PagesController;
-use Wpci\Core\Facades\AppMake;
 use Wpci\Core\Facades\RouterStore;
+use Wpci\Core\Http\Action;
+use Wpci\Core\Http\WpQueryCondition;
 
-/**
- * General route for regular wordpress pages queries
- */
 RouterStore::add(
-    AppMake::WpQueryCondition(),
-    AppMake::Action(PagesController::class . '::index'),
-    'general-pages-route'
+    new WpQueryCondition('index|home'),
+    new Action(PagesController::class . '::index'),
+    'pages.home'
+);
+
+RouterStore::add(
+    new WpQueryCondition('category'),
+    new Action(PagesController::class . '::category'),
+    'pages.category'
+);
+
+RouterStore::add(
+    new WpQueryCondition('single'),
+    new Action(PagesController::class . '::single'),
+    'pages.post'
 );

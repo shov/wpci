@@ -8,6 +8,3 @@ services:
   Wpci\Core\WpFrontController:
     public: true
     arguments: ['@service_container']
-
-  Wpci\Core\Http\WpQueryCondition:
-    arguments: ['@service_container']

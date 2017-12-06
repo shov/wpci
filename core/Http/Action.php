@@ -2,6 +2,7 @@
 
 namespace Wpci\Core\Http;
 
+use Wpci\Core\App;
 use Wpci\Core\Contracts\Action as ActionInterface;
 
 /**
@@ -31,8 +32,10 @@ class Action implements ActionInterface
                     $matches
                 );
 
-                dump($test);
-                dump($matches);
+                \Wpci\Core\Facades\App::get('Logger')->info('dd', [
+                    $test,
+                    $matches
+                ]);
 
                 $class= $matches[0]['class'];
                 $method = $matches[0]['method'];
