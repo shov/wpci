@@ -28,10 +28,7 @@ class WpFrontController
         if(!$started) {
             $started = true;
 
-            add_action('template_redirect', function () {
-                dump($this->container->get("wp.query"));
-                dump($this->container->get(wpdb::class));
-            });
+            /** TODO: bind routes here */
         }
     }
 }

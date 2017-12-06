@@ -1,7 +1,7 @@
 services:
   Wpci\Core\:
     resource: '../core/*'
-    exclude: '../core/App.php'
+    exclude: '../core/{App.php, Contracts, Exceptions, Facades}'
 
   Wpci\Core\WpFrontController:
     public: true

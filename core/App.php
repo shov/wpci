@@ -6,8 +6,10 @@ use Monolog\Formatter\HtmlFormatter;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Wpci\Core\Helpers\Singleton;
 use wpdb;
 
 require __DIR__ . '/../vendor/autoload.php';
@@ -18,12 +20,14 @@ require __DIR__ . '/../vendor/autoload.php';
  */
 final class App
 {
+    use Singleton;
+
     private const PROJECT_ROOT = __DIR__ . '/..';
 
     /** @var ContainerBuilder */
     protected $container;
 
-    public function __construct()
+    private function __construct()
     {
         $this->container = new ContainerBuilder();
 
@@ -81,6 +85,15 @@ final class App
     }
 
     /**
+     * get IoC Container
+     * @return Container
+     */
+    public function getContainer(): Container
+    {
+        return $this->container;
+    }
+
+    /**
      * Get absolute project directory path
      * @return string
      */
@@ -135,4 +148,4 @@ final class App
     }
 }
 
-return new App();
+return App::getInstance();
