@@ -23,7 +23,6 @@ class RouterStore
         if (empty($key) || is_numeric($key)) {
             $this->routes[] = compact('condition', 'action');
         } else {
-
             $this->routes[$key] = compact('condition', 'action');
         }
     }

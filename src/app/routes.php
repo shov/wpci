@@ -2,8 +2,15 @@
 
 namespace Wpci\App;
 
-use Wpci\Core\Facades\App;
-use Wpci\Core\Http\WpQueryCondition;
+use Wpci\App\Pages\PagesController;
+use Wpci\Core\Facades\AppMake;
 use Wpci\Core\Facades\RouterStore;
 
-RouterStore::add(App::get(WpQueryCondition::class), '');
+/**
+ * General route for regular wordpress pages queries
+ */
+RouterStore::add(
+    AppMake::WpQueryCondition(),
+    AppMake::Action(PagesController::class . '::index'),
+    'general-pages-route'
+);

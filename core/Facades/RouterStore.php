@@ -19,6 +19,7 @@ class RouterStore extends Facade
     /**
      * Return the facade root object
      * @return mixed
+     * @throws \Exception
      */
     public static function getFacadeRoot()
     {

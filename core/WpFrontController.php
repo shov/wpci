@@ -1,34 +1,25 @@
 <?php declare(strict_types=1);
 
 namespace Wpci\Core;
-use Symfony\Component\DependencyInjection\Container;
-use wpdb;
+
+use Wpci\Core\Facades\Path;
+use Wpci\Core\Facades\RouterStore;
 
 /**
- * Front controller for already routed request from wordpress
+ * Front controller for request from wordpress
  * Class WpFrontController
  * @package Wpci\Core
  */
 class WpFrontController
 {
-    /** @var Container  */
-    protected $container;
-
-    public function __construct(Container $container)
-    {
-        $this->container = $container;
-    }
-
     /**
-     * Called when time to choose the template
+     * Start gluing route conditions with actions
+     *
      */
     public function routing()
     {
-        static $started = false;
-        if(!$started) {
-            $started = true;
+        require_once Path::getAppPath('/routes.php');
 
-            /** TODO: bind routes here */
-        }
+        RouterStore::makeBinding();
     }
 }

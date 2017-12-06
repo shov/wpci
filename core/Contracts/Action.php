@@ -12,9 +12,9 @@ interface Action
 {
     /**
      * Action constructor.
-     * @param callable $callback, the method which will calling for the time
+     * @param $reference
      */
-    public function __construct(callable $callback);
+    public function __construct($reference);
 
     /**
      * Call action

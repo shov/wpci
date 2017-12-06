@@ -22,11 +22,17 @@ final class App
 {
     use Singleton;
 
-    private const PROJECT_ROOT = __DIR__ . '/..';
+    const PROJECT_ROOT = __DIR__ . '/..';
 
     /** @var ContainerBuilder */
     protected $container;
 
+    /** @var Path */
+    protected $path;
+
+    /**
+     * App constructor. Bootstrap
+     */
     private function __construct()
     {
         $this->container = new ContainerBuilder();
@@ -34,14 +40,16 @@ final class App
         /**
          * Logs
          */
+        $this->path = new Path();
+
         /** @var Logger $logger */
         $logger = new Logger('general');
 
-        $debugHandler = new StreamHandler($this->getProjectRoot() . '/debug.log.html', $logger::DEBUG);
+        $debugHandler = new StreamHandler($this->path->getProjectRoot('/debug.log.html'), $logger::DEBUG);
         $debugHandler->setFormatter(new HtmlFormatter());
         $logger->pushHandler($debugHandler);
 
-        $errorHandler = new StreamHandler($this->getProjectRoot() . '/error.log.html', $logger::ERROR);
+        $errorHandler = new StreamHandler($this->path->getProjectRoot('/error.log.html'), $logger::ERROR);
         $errorHandler->setFormatter(new HtmlFormatter());
         $logger->pushHandler($errorHandler);
 
@@ -59,7 +67,7 @@ final class App
         /**
          * Config
          */
-        $serviceConfigLoader = new YamlFileLoader($this->container, new FileLocator($this->getConfigPath()));
+        $serviceConfigLoader = new YamlFileLoader($this->container, new FileLocator($this->path->getConfigPath()));
         $serviceConfigLoader->load('services.yaml');
 
         $this->container->compile();
@@ -76,8 +84,13 @@ final class App
             $wpFrontController->routing();
 
         } catch (\Throwable $e) {
-            /** @var Logger $logger */
-            $logger = $this->container->get('Logger');
+            try {
+                /** @var Logger $logger */
+                $logger = $this->container->get('Logger');
+            } catch (\Throwable $e) {
+                die("Can't get the Logger");
+            }
+
             $logger->error($e->getMessage(), [
                 'stacktrace' => $e->getTrace(),
             ]);
@@ -91,60 +104,6 @@ final class App
     public function getContainer(): Container
     {
         return $this->container;
-    }
-
-    /**
-     * Get absolute project directory path
-     * @return string
-     */
-    public function getProjectRoot(): string
-    {
-        return realpath(self::PROJECT_ROOT);
-    }
-
-    /**
-     * Get absolute path to config folder
-     * @return string
-     */
-    public function getConfigPath(): string
-    {
-        return $this->getProjectRoot() . '/config';
-    }
-
-    /**
-     * Get absolute path to wordpress folder
-     * @return string
-     */
-    public function getWpPath(): string
-    {
-        return $this->getProjectRoot() . '/wordpress';
-    }
-
-    /**
-     * Get absolute path to Core folder
-     * @return string
-     */
-    public function getCorePath(): string
-    {
-        return $this->getProjectRoot() . '/core';
-    }
-
-    /**
-     * Get absolute path to Application folder
-     * @return string
-     */
-    public function getAppPath(): string
-    {
-        return $this->getSrcPath() . '/app';
-    }
-
-    /**
-     * Get absolut path to source folder
-     * @return string
-     */
-    public function getSrcPath(): string
-    {
-        return $this->getProjectRoot() . '/src';
     }
 }
 
