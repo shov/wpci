@@ -1,8 +1,13 @@
 services:
+  _defaults: { public: true }
+
   Wpci\Core\:
     resource: '../core/*'
     exclude: '../core/{App.php, Contracts, Exceptions, Facades, Helpers}'
 
   Wpci\Core\WpFrontController:
     public: true
+    arguments: ['@service_container']
+
+  Wpci\Core\Http\WpQueryCondition:
     arguments: ['@service_container']

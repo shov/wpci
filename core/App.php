@@ -45,11 +45,17 @@ final class App
         /** @var Logger $logger */
         $logger = new Logger('general');
 
-        $debugHandler = new StreamHandler($this->path->getProjectRoot('/debug.log.html'), $logger::DEBUG);
+        $debugLog = $this->path->getProjectRoot('/debug.log.html');
+        file_put_contents($debugLog, ''); //Cleaning TODO: move to config
+
+        $debugHandler = new StreamHandler($debugLog, $logger::DEBUG);
         $debugHandler->setFormatter(new HtmlFormatter());
         $logger->pushHandler($debugHandler);
 
-        $errorHandler = new StreamHandler($this->path->getProjectRoot('/error.log.html'), $logger::ERROR);
+        $errorLog = $this->path->getProjectRoot('/error.log.html');
+        file_put_contents($errorLog, ''); //Cleaning TODO: move to config
+
+        $errorHandler = new StreamHandler($errorLog, $logger::ERROR);
         $errorHandler->setFormatter(new HtmlFormatter());
         $logger->pushHandler($errorHandler);
 

@@ -108,7 +108,7 @@ class WpRestCondition implements RouteCondition
             );
         }
 
-        return static($urlPrefix, $url, $args, $method);
+        return new static($urlPrefix, $url, $args, $method);
     }
 
     /** @var string  */
