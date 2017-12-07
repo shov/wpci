@@ -66,9 +66,16 @@ final class App
          */
         global $wpdb;
         global $wp_query;
+        global $wp;
 
         $this->container->set(wpdb::class, $wpdb);
+        $this->container->set("wp", $wp);
         $this->container->set("wp.query", $wp_query);
+
+        add_action('wp', function () {
+            global $post;
+            $this->container->set("wp.post", $post);
+        });
 
         /**
          * Config

@@ -2,6 +2,7 @@
 
 namespace Wpci\App\Pages;
 
+use Wpci\Core\Facades\App;
 use Wpci\Core\Http\Response;
 
 /**
@@ -35,6 +36,8 @@ class PagesController
         ob_start();
 
         echo "Hello PagesController::single";
+        dump(App::get('wp'));
+        dump(App::get('wp.post'));
         dump($query);
 
         return new Response(ob_get_clean());

@@ -13,7 +13,12 @@ use Wpci\Core\Exceptions\RoutingException;
  */
 class WpRestCondition implements RouteCondition
 {
-    const SUPPORTED_METHODS = ['GET', 'POST', 'PUT', 'DELETE',];
+    const HTTP_METHODS = [
+        'GET' => 'GET',
+        'POST' => 'POST',
+        'PUT' => 'PUT',
+        'DELETE' => 'DELETE',
+    ];
 
     const DEFAULT_PREFIX = 'common/v2';
 
@@ -23,7 +28,7 @@ class WpRestCondition implements RouteCondition
     protected static $urlPrefixBracket = '';
 
     /**
-     * @param string $urlPrefix
+     * @param null|string $urlPrefix
      * @param callable $closure
      */
     public static function prefix(string $urlPrefix, callable $closure)
@@ -39,70 +44,72 @@ class WpRestCondition implements RouteCondition
      * Build GET RouteCondition
      * @param string $url
      * @param array $args
-     * @param string $urlPrefix
+     * @param null|string $urlPrefix
      * @return WpRestCondition
      * @throws RoutingException
      */
-    public static function get(string $url, array $args = [], string $urlPrefix = ''): WpRestCondition
+    public static function get(string $url, array $args = [], ?string $urlPrefix = null): WpRestCondition
     {
-        return static::build($url, $args, $urlPrefix, 'GET');
+        return static::build($url, $args, $urlPrefix, static::HTTP_METHODS['GET']);
     }
 
     /**
      * Build POST RouteCondition
      * @param string $url
      * @param array $args
-     * @param string $urlPrefix
+     * @param null|string $urlPrefix
      * @return WpRestCondition
      * @throws RoutingException
      */
-    public static function post(string $url, array $args = [], string $urlPrefix = ''): WpRestCondition
+    public static function post(string $url, array $args = [], ?string $urlPrefix = null): WpRestCondition
     {
-        return static::build($url, $args, $urlPrefix, 'POST');
+        return static::build($url, $args, $urlPrefix, static::HTTP_METHODS['POST']);
     }
 
     /**
      * Build PUT RouteCondition
      * @param string $url
      * @param array $args
-     * @param string $urlPrefix
+     * @param null|string $urlPrefix
      * @return WpRestCondition
      * @throws RoutingException
      */
-    public static function put(string $url, array $args = [], string $urlPrefix = ''): WpRestCondition
+    public static function put(string $url, array $args = [], ?string $urlPrefix = null): WpRestCondition
     {
-        return static::build($url, $args, $urlPrefix, 'PUT');
+        return static::build($url, $args, $urlPrefix, static::HTTP_METHODS['PUT']);
     }
 
     /**
      * Build DELETE RouteCondition
      * @param string $url
      * @param array $args
-     * @param string $urlPrefix
+     * @param null|string $urlPrefix
      * @return WpRestCondition
      * @throws RoutingException
      */
-    public static function delete(string $url, array $args = [], string $urlPrefix = ''): WpRestCondition
+    public static function delete(string $url, array $args = [], ?string $urlPrefix = null): WpRestCondition
     {
-        return static::build($url, $args, $urlPrefix, 'DELETE');
+        return static::build($url, $args, $urlPrefix, static::HTTP_METHODS['DELETE']);
     }
 
     /**
      * Build RouteCondition with given method
      * @param string $url
      * @param array $args
-     * @param string $urlPrefix
+     * @param null|string $urlPrefix
      * @param string $method
      * @return WpRestCondition
      * @throws RoutingException
      */
-    protected static function build(string $url, array $args = [], string $urlPrefix = '', string $method): WpRestCondition
+    protected static function build(string $url, array $args = [], ?string $urlPrefix = null, string $method): WpRestCondition
     {
-        if(empty($urlPrefix) && empty(static::$urlPrefixBracket)) {
+        $urlPrefix = $urlPrefix ?? '';
+
+        if (empty($urlPrefix) && empty(static::$urlPrefixBracket)) {
             $urlPrefix = static::DEFAULT_PREFIX;
         }
 
-        if(!in_array($method, static::SUPPORTED_METHODS)) {
+        if (!in_array($method, static::HTTP_METHODS)) {
             throw new RoutingException(
                 sprintf("Not supported method to rest route condition, given %s", $method)
             );
@@ -111,21 +118,21 @@ class WpRestCondition implements RouteCondition
         return new static($urlPrefix, $url, $args, $method);
     }
 
-    /** @var string  */
+    /** @var string */
     protected $urlPrefix;
 
-    /** @var string  */
+    /** @var string */
     protected $url;
 
-    /** @var array  */
+    /** @var array */
     protected $args;
 
-    /** @var string  */
+    /** @var string */
     protected $method;
 
     /**
      * WpRestCondition constructor.
-     * @param string $urlPrefix
+     * @param null|string $urlPrefix
      * @param string $url
      * @param array $args
      * @param string $method

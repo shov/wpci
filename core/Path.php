@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
 
 namespace Wpci\Core;
+use WP;
 
 /**
  * Class Path, all important pathes in the application
@@ -66,5 +67,17 @@ class Path
     public function getSrcPath(string $tail = ''): string
     {
         return $this->getProjectRoot() . '/src' . $tail;
+    }
+
+    /**
+     * Get current url with WP global query
+     * @return string
+     * @throws \Exception
+     */
+    public function getCurrentUrl(): string
+    {
+        /** @var WP $wp */
+        $wp = \Wpci\Core\Facades\App::get('wp');
+        return home_url(add_query_arg([], $wp->request));
     }
 }

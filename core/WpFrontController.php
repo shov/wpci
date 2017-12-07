@@ -14,11 +14,10 @@ class WpFrontController
 {
     /**
      * Start gluing route conditions with actions
-     *
      */
     public function routing()
     {
-        require_once Path::getAppPath('/routes.php');
+        require_once Path::getConfigPath('/routes.php');
 
         RouterStore::makeBinding();
     }

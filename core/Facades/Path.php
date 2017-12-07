@@ -14,6 +14,7 @@ use Wpci\Core\Helpers\Facade;
  * @method static string getCorePath(string $tail = '')
  * @method static string getAppPath(string $tail = '')
  * @method static string getSrcPath(string $tail = '')
+ * @method static string getCurrentUrl()
  */
 class Path extends Facade
 {
