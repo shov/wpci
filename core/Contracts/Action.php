@@ -2,7 +2,7 @@
 
 namespace Wpci\Core\Contracts;
 
-use Wpci\Core\Http\Response;
+
 
 /**
  * Interface Action

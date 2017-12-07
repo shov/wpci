@@ -2,31 +2,31 @@
 
 namespace Wpci\Config;
 
-use Wpci\App\Pages\PagesController;
+use Wpci\App\Pages\SiteController;
 use Wpci\Core\Facades\RouterStore;
 use Wpci\Core\Http\Action;
 use Wpci\Core\Http\WpQueryCondition;
 
 RouterStore::add(
     new WpQueryCondition('index|home'),
-    new Action(PagesController::class . '::index'),
+    new Action(SiteController::class . '::index'),
     'pages.home'
 );
 
 RouterStore::add(
     new WpQueryCondition('category'),
-    new Action(PagesController::class . '::category'),
+    new Action(SiteController::class . '::category'),
     'pages.category'
 );
 
 RouterStore::add(
     new WpQueryCondition('single'),
-    new Action(PagesController::class . '::single'),
+    new Action(SiteController::class . '::single'),
     'pages.post'
 );
 
 RouterStore::add(
     new WpQueryCondition('single', ['name' => 'hello-world']),
-    new Action(PagesController::class . '::helloWorld'),
+    new Action(SiteController::class . '::helloWorld'),
     'pages.post.hello_world'
 );

@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\JsonResponse as BaseJsonResponse;
  * Class JsonResponce
  * @package Wpci\Core\Http
  */
-class JsonResponce extends BaseJsonResponse
+class JsonResponse extends BaseJsonResponse implements \Wpci\Core\Contracts\Response
 {
 
 }

@@ -5,10 +5,10 @@ namespace Wpci\Core\Http;
 use Symfony\Component\HttpFoundation\Response as BaseResponse;
 
 /**
- * Class Response
+ * Class RegularResponse
  * @package Wpci\Core\Http
  */
-class Response extends BaseResponse
+class RegularResponse extends BaseResponse implements \Wpci\Core\Contracts\Response
 {
 
 }

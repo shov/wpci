@@ -90,6 +90,7 @@ class WpQueryCondition implements RouteCondition
     protected function parseKeywords(): array
     {
         $wpq = $this->wpQuery;
+
         $keywords = [];
         if ($wpq->is_single) $keywords[] = 'single';
         if ($wpq->is_preview) $keywords[] = 'preview';
@@ -119,6 +120,13 @@ class WpQueryCondition implements RouteCondition
         if ($wpq->is_posts_page) $keywords[] = 'posts_page';
         if ($wpq->is_post_type_archive) $keywords[] = 'post_type_archive';
         if (0 === count($keywords)) $keywords[] = 'index';
-        return $keywords;
+
+        $frontPageId = get_option('page_on_front');
+        //ignore zero value as well
+        if(!empty($wpq->query_vars['p']) && $frontPageId == $wpq->query_vars['p']) {
+            $keywords[] = 'index';
+        }
+
+        return array_unique($keywords);
     }
 }

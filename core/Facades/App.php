@@ -26,4 +26,9 @@ class App
     {
         return TheApp::getInstance()->getContainer();
     }
+
+    public static function environment(string $var)
+    {
+        return TheApp::getInstance()->getEnvVar($var);
+    }
 }

@@ -4,6 +4,7 @@ namespace Wpci\Core\Http;
 
 use Wpci\Core\App;
 use Wpci\Core\Contracts\Action as ActionInterface;
+use Wpci\Core\Contracts\Response;
 
 /**
  * Class Action, regular (simple) action
@@ -32,11 +33,6 @@ class Action implements ActionInterface
                     $matches
                 );
 
-                \Wpci\Core\Facades\App::get('Logger')->info('dd', [
-                    $test,
-                    $matches
-                ]);
-
                 $class= $matches[0]['class'];
                 $method = $matches[0]['method'];
 
@@ -53,7 +49,7 @@ class Action implements ActionInterface
         $callback = $this->callback;
         $response = $callback(...$arguments);
 
-        ($response instanceof Response) ?: $response = new Response($response);
+        ($response instanceof Response) ?: $response = new RegularResponse($response);
         return $response;
     }
 }

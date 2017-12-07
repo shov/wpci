@@ -10,6 +10,8 @@ use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Wpci\Core\Helpers\Singleton;
+use Wpci\Core\Render\PhpTemplate;
+use Wpci\Core\Render\View;
 use wpdb;
 
 require __DIR__ . '/../vendor/autoload.php';
@@ -29,6 +31,9 @@ final class App
 
     /** @var Path */
     protected $path;
+
+    /** @var array */
+    protected $env = [];
 
     /**
      * App constructor. Bootstrap
@@ -83,7 +88,17 @@ final class App
         $serviceConfigLoader = new YamlFileLoader($this->container, new FileLocator($this->path->getConfigPath()));
         $serviceConfigLoader->load('services.yaml');
 
+        //TODO: move to config
+
+        $this->container->set('view.default', new View(new PhpTemplate()));
+
         $this->container->compile();
+
+        /**
+         * Environment
+         * TODO: move to config
+         */
+        $this->env['testing'] = true;
     }
 
     /**
@@ -117,6 +132,17 @@ final class App
     public function getContainer(): Container
     {
         return $this->container;
+    }
+
+    /**
+     * Accessor to environment vars
+     * TODO: Implement env config/system
+     * @param string $var
+     * @return null|mixed
+     */
+    public function getEnvVar(string $var)
+    {
+        return $this->env[$var] ?? null;
     }
 }
 

@@ -39,13 +39,24 @@ class WpciQuery
      * WpciQuery constructor.
      * @param null $query
      * @param null|string $channel
+     * @throws \Exception
      */
     public function __construct($query = null, ?string $channel = null)
     {
         $this->addVariables(static::getBaseDataByChannel($channel));
 
-        if (!empty($query) && (is_string($query) || is_array($query))) {
-            $this->decoratedWpQuery = new WP_Query($query);
+        switch(true) {
+            case ($query instanceof WP_Query):
+                $this->decoratedWpQuery = $query;
+                break;
+
+            case (!empty($query) && (is_string($query) || is_array($query))):
+                $this->decoratedWpQuery = new WP_Query($query);
+                break;
+
+            default:
+                $this->decoratedWpQuery = App::get('wp.query');
+                break;
         }
     }
 
@@ -114,7 +125,7 @@ class WpciQuery
             }
         }
 
-        if(!$withoutWp) {
+        if (!$withoutWp) {
             ob_start();
             wp_head();
             $data['wp-head'] = ob_get_clean();
@@ -168,11 +179,11 @@ class WpciQuery
             }
         }
 
-        if(is_object($queryObject->queried_object)) {
+        if (is_object($queryObject->queried_object)) {
             $data['title'] = $queryObject->queried_object->name;
         }
 
-        if(!$withoutWp) {
+        if (!$withoutWp) {
             ob_start();
             wp_head();
             $data['wp-head'] = ob_get_clean();
@@ -242,21 +253,20 @@ class WpciQuery
     }
 
     /**
-     * Get current and correct query object
+     * Right way to get current and correct query object
      * @return WP_Query
      * @throws \Exception
      */
     protected function wpQuery(): WP_Query
     {
-        if(!is_null($this->decoratedWpQuery)) {
-            $curQuery = $this->decoratedWpQuery;
+        $hashDecoratedObject = spl_object_hash($this->decoratedWpQuery);
+        $globalObject = spl_object_hash(App::get('wp.query'));
 
-        } else {
+        if ($hashDecoratedObject === $globalObject) {
             wp_reset_query();
-            $curQuery = App::get('wp.query');
         }
 
-        return $curQuery;
+        return $this->decoratedWpQuery;
     }
 
     /**
