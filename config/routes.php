@@ -2,7 +2,7 @@
 
 namespace Wpci\Config;
 
-use Wpci\App\Pages\SiteController;
+use App\Pages\SiteController;
 use Wpci\Core\Facades\RouterStore;
 use Wpci\Core\Http\Action;
 use Wpci\Core\Http\WpQueryCondition;

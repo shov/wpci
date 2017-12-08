@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Wpci\App\Pages;
+namespace App\Pages;
 
 use Wpci\Core\Contracts\Response;
 use Wpci\Core\DataSource\WpciQuery;
@@ -12,7 +12,7 @@ use Wpci\Core\Http\RegularResponse;
 
 /**
  * Class WpQueryController
- * @package Wpci\App\Pages
+ * @package App\Pages
  */
 class SiteController extends PagesController
 {
@@ -30,6 +30,7 @@ class SiteController extends PagesController
     {
         return $this->wrap(function () use ($query) {
             $data = (new WpciQuery($query))
+                ->addWpEnv()
                 ->addPostData()
                 ->fetch();
 
@@ -42,34 +43,18 @@ class SiteController extends PagesController
      * @return Response
      * @throws \Exception
      */
-    public function category(\WP_Query $query): Response
-    {
-        return $this->wrap(function () {
-            return "Hello SiteController::category";
-        });
-    }
-
-    /**
-     * @param \WP_Query $query
-     * @return Response
-     * @throws \Exception
-     */
-    public function single(\WP_Query $query): Response
-    {
-        return $this->wrap(function () {
-            return "Hello SiteController::single";
-        });
-    }
-
-    /**
-     * @param \WP_Query $query
-     * @return Response
-     * @throws \Exception
-     */
     public function helloWorld(\WP_Query $query): Response
     {
-        return $this->wrap(function () {
-            return "Hello world";
+        return $this->wrap(function () use ($query) {
+            $data = (new WpciQuery($query))
+                ->addWpEnv()
+                ->addPostData()
+                ->addVariables([
+                    'sub' => 'What next?'
+                ])
+                ->fetch();
+
+                return View::display('@hello', $data);
         });
     }
 }

@@ -11,4 +11,4 @@ services:
 
   Wpci\Core\Render\View:
     public: true
-    arguments: ['@Wpci\Core\Render\PhpTemplate', '@Wpci\Core\Http\WpResponse']
+    arguments: ['@Wpci\Core\Render\MustacheTemplate', '@Wpci\Core\Http\WpResponse']

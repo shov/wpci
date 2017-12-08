@@ -4,6 +4,7 @@ namespace Wpci\Core\Render;
 
 use Wpci\Core\Contracts\Template;
 use Wpci\Core\Facades\Path;
+use Wpci\Core\Helpers\KeyToFile;
 
 /**
  * Class PhpTemplate
@@ -11,42 +12,21 @@ use Wpci\Core\Facades\Path;
  */
 class PhpTemplate implements Template
 {
+    use KeyToFile;
+
+    const TPL_EXT = '.php';
 
     /**
      * @inheritdoc
      */
     public function render(string $key, array $data = []): string
     {
-        extract($data);
-
-        if ("@" === $key[0]) {
-            $key = str_replace(["@", ":"], "/", $key) . '.php';
-        }
-
-        if (!is_readable(Path::getTplPath($key))) {
-
-            $tmpFilePath = tempnam(sys_get_temp_dir(), 'phpTemplate_');
-
-            if (false === $tmpFilePath) {
-                throw new \Exception("Can't create temp file!");
-            }
-
-            file_put_contents($tmpFilePath, $key);
+        return $this->keyToFileForProcess(Path::getTplPath(), $key, function ($filePath) use ($data) {
+            extract($data);
 
             ob_start();
-            include $tmpFilePath;
-            $rendered = ob_get_clean();
-
-            @unlink($tmpFilePath);
-
-        } else {
-
-            ob_start();
-            include Path::getTplPath($key);
-            $rendered = ob_get_clean();
-
-        }
-
-        return $rendered;
+            include $filePath;
+            return ob_get_clean();
+        }, static::TPL_EXT);
     }
 }

@@ -8,12 +8,13 @@
     "monolog/monolog": "^1.23",
     "symfony/yaml": "^4.0",
     "symfony/var-dumper": "^4.0",
-    "symfony/http-foundation": "^4.0"
+    "symfony/http-foundation": "^4.0",
+    "mustache/mustache": "^2.12"
   },
   "autoload": {
     "psr-4": {
       "Wpci\\Core\\": "core",
-      "Wpci\\App\\": "src/app"
+      "App\\": "src/app"
     }
 
   },

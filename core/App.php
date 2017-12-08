@@ -20,7 +20,7 @@ require __DIR__ . '/../vendor/autoload.php';
 
 /**
  * Class App
- * @package Wpci\App
+ * @package App
  */
 final class App
 {
