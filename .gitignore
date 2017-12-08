@@ -3,6 +3,7 @@
 /wordpress
 /docker-config/db
 /docker-config/.env
+/src
 /src/front/psd/
 /src/front/png/
 /src/front/jpg/
