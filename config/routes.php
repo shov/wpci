@@ -8,21 +8,9 @@ use Wpci\Core\Http\Action;
 use Wpci\Core\Http\WpQueryCondition;
 
 RouterStore::add(
-    new WpQueryCondition('index|home'),
+    new WpQueryCondition('index|home|any'),
     new Action(SiteController::class . '::index'),
     'pages.home'
-);
-
-RouterStore::add(
-    new WpQueryCondition('category'),
-    new Action(SiteController::class . '::category'),
-    'pages.category'
-);
-
-RouterStore::add(
-    new WpQueryCondition('single'),
-    new Action(SiteController::class . '::single'),
-    'pages.post'
 );
 
 RouterStore::add(

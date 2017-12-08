@@ -95,6 +95,13 @@ class RouterStore
             /** @var WpQueryCondition $bCondition */
             $bCondition = $b['condition'];
 
+            $aAnyFactor = (int)(!in_array('any' ,$aCondition->getKeywords()));
+            $bAnyFactor = (int)(!in_array('any' ,$bCondition->getKeywords()));
+
+            if($aAnyFactor !== $bAnyFactor) {
+                return $bAnyFactor - $aAnyFactor;
+            }
+
             $aQueryParamsCount = count($aCondition->getQueryParams());
             $bQueryParamsCount = count($bCondition->getQueryParams());
 

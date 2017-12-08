@@ -142,6 +142,8 @@ class WpQueryCondition implements RouteCondition
             $keywords[] = 'index';
         }
 
+        $keywords[]= 'any';
+
         return array_unique($keywords);
     }
 }
