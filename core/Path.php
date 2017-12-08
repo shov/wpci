@@ -60,6 +60,16 @@ class Path
     }
 
     /**
+     * Get absolute path to Application templates folder
+     * @param string $tail
+     * @return string
+     */
+    public function getTplPath(string $tail = ''): string
+    {
+        return $this->getSrcPath() . '/app/templates' . $tail;
+    }
+
+    /**
      * Get absolute path to source folder
      * @param string $tail
      * @return string

@@ -18,41 +18,35 @@ class PhpTemplate implements Template
     public function render(string $key, array $data = []): string
     {
         extract($data);
-        $tmpFilePath = tempnam(sys_get_temp_dir(), 'phpTemplate_');
 
-        if(false === $tmpFilePath) {
-            throw new \Exception("Can't create temp file!");
+        if ("@" === $key[0]) {
+            $key = str_replace(["@", ":"], "/", $key) . '.php';
         }
 
-        file_put_contents($tmpFilePath, $this->getTemplateContent($key));
+        if (!is_readable(Path::getTplPath($key))) {
 
-        ob_start();
-        include $tmpFilePath;
-        $rendered = ob_get_clean();
+            $tmpFilePath = tempnam(sys_get_temp_dir(), 'phpTemplate_');
 
-        @unlink($tmpFilePath);
+            if (false === $tmpFilePath) {
+                throw new \Exception("Can't create temp file!");
+            }
+
+            file_put_contents($tmpFilePath, $key);
+
+            ob_start();
+            include $tmpFilePath;
+            $rendered = ob_get_clean();
+
+            @unlink($tmpFilePath);
+
+        } else {
+
+            ob_start();
+            include Path::getTplPath($key);
+            $rendered = ob_get_clean();
+
+        }
 
         return $rendered;
-    }
-
-    /**
-     * Receive the content of the template
-     * TODO: Add finding methods
-     * @param string $key
-     * @return string
-     */
-    protected function getTemplateContent(string $key): string
-    {
-        /**
-         * Search in app
-         */
-        if(is_readable(Path::getAppPath($key))) {
-            return file_get_contents(Path::getAppPath($key));
-        }
-
-        /**
-         * Just work given string as template content
-         */
-        return $key;
     }
 }

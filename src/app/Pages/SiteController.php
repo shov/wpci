@@ -4,8 +4,6 @@ namespace Wpci\App\Pages;
 
 use Wpci\Core\Contracts\Response;
 use Wpci\Core\DataSource\WpciQuery;
-use Wpci\Core\Facades\App;
-use Wpci\Core\Facades\Path;
 use Wpci\Core\Facades\View;
 use Wpci\Core\Http\PagesController;
 use Wpci\Core\Http\RegularResponse;
@@ -28,7 +26,7 @@ class SiteController extends PagesController
                 ->addPostData()
                 ->fetch();
 
-            return View::display('/Pages/Templates/index.php', $data);
+            return View::display('@index', $data);
         });
     }
 

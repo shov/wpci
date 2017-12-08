@@ -68,6 +68,8 @@ final class App
 
         $this->container->set('Logger', $logger);
 
+        ini_set('error_log', $this->path->getProjectRoot('/error.log.wp.txt'));
+
         /**
          * Wordpress
          */

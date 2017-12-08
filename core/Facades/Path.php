@@ -13,6 +13,7 @@ use Wpci\Core\Helpers\Facade;
  * @method static string getWpPath(string $tail = '')
  * @method static string getCorePath(string $tail = '')
  * @method static string getAppPath(string $tail = '')
+ * @method static string getTplPath(string $tail = '')
  * @method static string getSrcPath(string $tail = '')
  * @method static string getCurrentUrl()
  */
