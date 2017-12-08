@@ -20,6 +20,9 @@ $foldersToCreate = [
     $themeFolder . '/fonts',
     $themeFolder . '/images',
     $themeFolder . '/js',
+    BASE_PATH . '/src',
+    BASE_PATH . '/src/app',
+    BASE_PATH . '/src/app/templates',
 ];
 
 $createDir = function ($dirPath) {
