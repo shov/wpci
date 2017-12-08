@@ -14,11 +14,26 @@ if (!is_dir(WP_PATH)) {
 }
 
 $themeFolder = WP_PATH . '/wp-content/themes/wpci';
-if (!is_dir($themeFolder)) {
-    if (is_file($themeFolder)) {
-        @unlink($themeFolder);
+
+$foldersToCreate = [
+    $themeFolder . '/css',
+    $themeFolder . '/fonts',
+    $themeFolder . '/images',
+    $themeFolder . '/js',
+];
+
+$createDir = function ($dirPath) {
+    if (!is_dir($dirPath)) {
+        if (is_file($dirPath)) {
+            @unlink($dirPath);
+        }
+        mkdir($dirPath);
     }
-    mkdir($themeFolder);
+};
+
+$createDir($themeFolder);
+foreach ($foldersToCreate as $dirPath) {
+    $createDir($dirPath);
 }
 
 /**

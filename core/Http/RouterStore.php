@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Wpci\Core;
+namespace Wpci\Core\Http;
 
 use Wpci\Core\Contracts\Action;
 use Wpci\Core\Contracts\RouteCondition;

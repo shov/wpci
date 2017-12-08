@@ -44,11 +44,11 @@ class WpQueryCondition implements RouteCondition
      */
     public function bindWithAction(Action $action)
     {
-        if(static::$wpQueryActionHasBound) {
-            return;
-        }
+        if (static::$wpQueryActionHasBound) return;
 
         add_action('template_redirect', function () use ($action) {
+            if (static::$wpQueryActionHasBound) return;
+
             $gotKeywords = $this->parseKeywords();
 
             $haveToBind = false;

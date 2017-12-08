@@ -23,6 +23,6 @@ class RouterStore extends Facade
      */
     public static function getFacadeRoot()
     {
-        return App::get(\Wpci\Core\RouterStore::class);
+        return App::get(\Wpci\Core\Http\RouterStore::class);
     }
 }
