@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespainteractsre\Render;
+namespace Wpci\Core\Render;
 
 use Wpci\Core\Contracts\Response;
 use Wpci\Core\Contracts\Template;
