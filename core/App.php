@@ -10,6 +10,7 @@ use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Wpci\Core\Helpers\Singleton;
+use Wpci\Core\Http\WpResponse;
 use Wpci\Core\Render\PhpTemplate;
 use Wpci\Core\Render\View;
 use wpdb;
@@ -87,11 +88,6 @@ final class App
          */
         $serviceConfigLoader = new YamlFileLoader($this->container, new FileLocator($this->path->getConfigPath()));
         $serviceConfigLoader->load('services.yaml');
-
-        //TODO: move to config
-
-        $this->container->set('view.default', new View(new PhpTemplate()));
-
         $this->container->compile();
 
         /**

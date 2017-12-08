@@ -12,6 +12,13 @@ use Wpci\Core\Facades\App;
  */
 class WpQueryCondition implements RouteCondition
 {
+    /**
+     * Because only one action can be bound
+     * this flag signal to stop binding for WpQueryConditions
+     * @var bool
+     */
+    protected static $wpQueryActionHasBound = false;
+
     /** @var \WP_Query */
     protected $wpQuery;
 
@@ -37,6 +44,10 @@ class WpQueryCondition implements RouteCondition
      */
     public function bindWithAction(Action $action)
     {
+        if(static::$wpQueryActionHasBound) {
+            return;
+        }
+
         add_action('template_redirect', function () use ($action) {
             $gotKeywords = $this->parseKeywords();
 
@@ -62,7 +73,16 @@ class WpQueryCondition implements RouteCondition
             }
 
             if ($haveToBind) {
-                $action->call($this->wpQuery)->send();
+                static::$wpQueryActionHasBound = true;
+
+                add_action('template_include', function () use ($action) {
+                    dump('start hook');
+                    $response = $action->call($this->wpQuery);
+                    dump(get_class($response));
+                    $response->send();
+                    dump('after hook');
+                    //should return file path to include
+                });
             }
         });
     }
@@ -123,7 +143,7 @@ class WpQueryCondition implements RouteCondition
 
         $frontPageId = get_option('page_on_front');
         //ignore zero value as well
-        if(!empty($wpq->query_vars['p']) && $frontPageId == $wpq->query_vars['p']) {
+        if (!empty($wpq->query_vars['p']) && $frontPageId == $wpq->query_vars['p']) {
             $keywords[] = 'index';
         }
 

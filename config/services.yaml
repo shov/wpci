@@ -8,3 +8,7 @@ services:
   Wpci\Core\WpFrontController:
     public: true
     arguments: ['@service_container']
+
+  Wpci\Core\Render\View:
+    public: true
+    arguments: ['@Wpci\Core\Render\PhpTemplate', '@Wpci\Core\Http\WpResponse']

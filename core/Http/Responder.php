@@ -89,11 +89,15 @@ abstract class Responder
             return $this->failWithException($e);
         }
 
+        if(!is_null($successSpecResult)) {
+            $result = $successSpecResult;
+        }
+
         if ($result instanceof Response) {
             return $result;
         }
 
-        return $successSpecResult ?? $this->success($result);
+        return $this->success($result);
     }
 
     /**

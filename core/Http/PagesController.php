@@ -29,13 +29,13 @@ class PagesController extends Responder
             is_null($e) ?: $logData[] = $e->getTraceAsString();
             App::get('Logger')->info($logData);
 
-            return new RegularResponse($content ?? '', $status);
+            return new WpResponse($content ?? '', $status);
         }
 
         if($exceptionMarker) {
             $content = '';
         }
 
-        return new RegularResponse($content ?? '', $status);
+        return new WpResponse($content ?? '', $status);
     }
 }
