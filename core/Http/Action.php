@@ -19,25 +19,17 @@ class Action implements ActionInterface
      */
     public function __construct($reference)
     {
-        switch (true) {
-
-            case (is_callable($reference)):
+        if(is_callable($reference)) {
+            if(!is_string($reference)) {
                 $this->callback = $reference;
-                break;
-
-            case (is_string($reference) && !empty($reference)):
-                $matches = [];
-                $test = preg_match_all(
-                    '^(?<class>[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*(\\[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)*)::(?<method>[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)$',
-                    $reference,
-                    $matches
-                );
-
-                $class= $matches[0]['class'];
-                $method = $matches[0]['method'];
-
-                $this->callback = [new $class(), $method];
-                break;
+            } else {
+                $parts = explode("::", $reference);
+                $this->callback = [new $parts[0](), $parts[1]];
+            }
+        } else {
+            $this->callback = function () use ($reference) {
+                new RegularResponse($reference);
+            };
         }
     }
 
@@ -47,7 +39,7 @@ class Action implements ActionInterface
     public function call(...$arguments): Response
     {
         $callback = $this->callback;
-        $response = $callback(...$arguments);
+        $response = call_user_func($callback, ...$arguments);
 
         ($response instanceof Response) ?: $response = new RegularResponse($response);
         return $response;

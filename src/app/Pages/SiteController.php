@@ -25,9 +25,9 @@ class SiteController extends PagesController
         return $this->wrap(function () use ($query) {
             $data = (new WpciQuery($query))
                 ->addWpEnv()
-                ->addPostLoopData()
+                ->addPostData()
                 ->fetch();
-
+            ///dump($data);
             return View::display('/Pages/Templates/index.php', $data);
         });
     }
