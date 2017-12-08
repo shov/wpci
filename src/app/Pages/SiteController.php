@@ -5,6 +5,7 @@ namespace Wpci\App\Pages;
 use Wpci\Core\Contracts\Response;
 use Wpci\Core\DataSource\WpciQuery;
 use Wpci\Core\Facades\App;
+use Wpci\Core\Facades\Path;
 use Wpci\Core\Facades\View;
 use Wpci\Core\Http\PagesController;
 use Wpci\Core\Http\RegularResponse;
@@ -24,10 +25,9 @@ class SiteController extends PagesController
     {
         return $this->wrap(function () use ($query) {
             $data = (new WpciQuery($query))
-                ->addWpEnv()
                 ->addPostData()
                 ->fetch();
-            ///dump($data);
+
             return View::display('/Pages/Templates/index.php', $data);
         });
     }

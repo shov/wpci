@@ -19,9 +19,7 @@ class WpResponse extends BaseResponse implements \Wpci\Core\Contracts\Response
      */
     public function send()
     {
-        add_filter('status_header', function ($_, int &$code) {
-            $code = $this->getStatusCode();
-        });
+        status_header($this->getStatusCode());
 
         $content = $this->getContent();
         $tmpFilePath = tempnam(sys_get_temp_dir(), 'wpResponse_');
