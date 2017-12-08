@@ -3,6 +3,7 @@
 namespace Wpci\Core\Http;
 
 use Symfony\Component\HttpFoundation\JsonResponse as BaseJsonResponse;
+use Wpci\Core\Facades\ShutdownPromisePull;
 
 /**
  * Class JsonResponce
@@ -10,5 +11,10 @@ use Symfony\Component\HttpFoundation\JsonResponse as BaseJsonResponse;
  */
 class JsonResponse extends BaseJsonResponse implements \Wpci\Core\Contracts\Response
 {
-
+    public function send()
+    {
+        $result = parent::send();
+        ShutdownPromisePull::callAllPromises();
+        return $result;
+    }
 }

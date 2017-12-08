@@ -76,12 +76,7 @@ class WpQueryCondition implements RouteCondition
                 static::$wpQueryActionHasBound = true;
 
                 add_action('template_include', function () use ($action) {
-                    dump('start hook');
-                    $response = $action->call($this->wpQuery);
-                    dump(get_class($response));
-                    $response->send();
-                    dump('after hook');
-                    //should return file path to include
+                    return $action->call($this->wpQuery)->send();
                 });
             }
         });

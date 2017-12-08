@@ -9,6 +9,7 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Wpci\Core\Facades\ShutdownPromisePull;
 use Wpci\Core\Helpers\Singleton;
 use Wpci\Core\Http\WpResponse;
 use Wpci\Core\Render\PhpTemplate;
@@ -88,6 +89,8 @@ final class App
          */
         $serviceConfigLoader = new YamlFileLoader($this->container, new FileLocator($this->path->getConfigPath()));
         $serviceConfigLoader->load('services.yaml');
+
+        $this->container->set('promise-pull.shutdown', new PromisePull());
         $this->container->compile();
 
         /**
@@ -103,21 +106,29 @@ final class App
     public function run()
     {
         try {
-            /** @var WpFrontController $wpFrontController */
-            $wpFrontController = $this->container->get(WpFrontController::class);
-            $wpFrontController->routing();
+            add_action('shutdown', function () {
+                ShutdownPromisePull::callAllPromises();
+            });
+
+            $this->container
+                ->get(WpFrontController::class)
+                ->routing();
 
         } catch (\Throwable $e) {
             try {
                 /** @var Logger $logger */
                 $logger = $this->container->get('Logger');
+
             } catch (\Throwable $e) {
+                ShutdownPromisePull::callAllPromises();
                 die("Can't get the Logger");
             }
 
             $logger->error($e->getMessage(), [
                 'stacktrace' => $e->getTrace(),
             ]);
+        } finally {
+            ShutdownPromisePull::callAllPromises();
         }
     }
 

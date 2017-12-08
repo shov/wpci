@@ -41,8 +41,6 @@ class Action implements ActionInterface
         $callback = $this->callback;
         $response = call_user_func($callback, ...$arguments);
 
-        dump(get_class($response));
-
         if(!in_array(Response::class, class_implements($response))) {
             $response = new RegularResponse($response);
         }

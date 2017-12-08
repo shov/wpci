@@ -32,35 +32,39 @@ class SiteController extends PagesController
         });
     }
 
+    /**
+     * @param \WP_Query $query
+     * @return Response
+     * @throws \Exception
+     */
     public function category(\WP_Query $query): Response
     {
-        ob_start();
-
-        echo "Hello PagesController::category";
-        dump($query);
-
-        return new RegularResponse(ob_get_clean());
+        return $this->wrap(function () {
+            return "Hello SiteController::category";
+        });
     }
 
+    /**
+     * @param \WP_Query $query
+     * @return Response
+     * @throws \Exception
+     */
     public function single(\WP_Query $query): Response
     {
-        ob_start();
-
-        echo "Hello PagesController::single";
-        dump(App::get('wp'));
-        dump(App::get('wp.post'));
-        dump($query);
-
-        return new RegularResponse(ob_get_clean());
+        return $this->wrap(function () {
+            return "Hello SiteController::single";
+        });
     }
 
+    /**
+     * @param \WP_Query $query
+     * @return Response
+     * @throws \Exception
+     */
     public function helloWorld(\WP_Query $query): Response
     {
-        ob_start();
-
-        echo "Hello World";
-        dump($query);
-
-        return new RegularResponse(ob_get_clean());
+        return $this->wrap(function () {
+            return "Hello world";
+        });
     }
 }

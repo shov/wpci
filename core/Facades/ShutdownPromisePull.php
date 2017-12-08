@@ -2,19 +2,17 @@
 
 namespace Wpci\Core\Facades;
 
-use Wpci\Core\Contracts\Response;
 use Wpci\Core\Helpers\Facade;
-use Wpci\Core\Http\RegularResponse;
 
 /**
- * Class View
+ * Class ShutdownPromisePull
  * @package Wpci\Core\Facades
  *
- * @method static Response display(string $key, array $data, int $status = RegularResponse::HTTP_OK)
+ * @method static addPromise(callable $promise, ?int $priority = null)
+ * @method static callAllPromises()
  */
-class View extends Facade
+class ShutdownPromisePull extends Facade
 {
-
     /**
      * Return the facade root object
      * @return mixed
@@ -22,6 +20,6 @@ class View extends Facade
      */
     public static function getFacadeRoot()
     {
-        return App::get(\Wpci\Core\Render\View::class);
+        return App::get('promise-pull.shutdown');
     }
 }
