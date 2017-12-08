@@ -12,25 +12,14 @@ use Wpci\Core\Contracts\Response;
  */
 class Action implements ActionInterface
 {
-    protected $callback;
+    protected $reference;
 
     /**
      * @inheritdoc
      */
     public function __construct($reference)
     {
-        if(is_callable($reference)) {
-            if(!is_string($reference)) {
-                $this->callback = $reference;
-            } else {
-                $parts = explode("::", $reference);
-                $this->callback = [new $parts[0](), $parts[1]];
-            }
-        } else {
-            $this->callback = function () use ($reference) {
-                new RegularResponse($reference);
-            };
-        }
+        $this->reference = $reference;
     }
 
     /**
@@ -38,12 +27,37 @@ class Action implements ActionInterface
      */
     public function call(...$arguments): Response
     {
-        $callback = $this->callback;
+        $callback = $this->getCallbackFromReference($this->reference);
+
         $response = call_user_func($callback, ...$arguments);
 
         if(!in_array(Response::class, class_implements($response))) {
             $response = new RegularResponse($response);
         }
         return $response;
+    }
+
+    /**
+     * Call this when action calling, to make Controller in a time
+     * @param $reference
+     * @return callable
+     */
+    protected function getCallbackFromReference($reference): callable
+    {
+        $reference = $this->reference;
+        if(is_callable($reference)) {
+            if(!is_string($reference)) {
+                $callback = $reference;
+            } else {
+                $parts = explode("::", $reference);
+                $callback = [new $parts[0](), $parts[1]];
+            }
+        } else {
+            $callback = function () use ($reference) {
+                new RegularResponse($reference);
+            };
+        }
+
+        return $callback;
     }
 }

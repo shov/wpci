@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
 
 namespace Wpci\Core;
+
 use WP;
 
 /**
@@ -89,5 +90,55 @@ class Path
         /** @var WP $wp */
         $wp = \Wpci\Core\Facades\App::get('wp');
         return home_url(add_query_arg([], $wp->request));
+    }
+
+    /**
+     * Get WP theme directory URI
+     * @param string $tail
+     * @return string
+     */
+    public function getWpThemeUri(string $tail = ''): string
+    {
+        return get_template_directory_uri() . $tail;
+    }
+
+    /**
+     * Get public css folder URI
+     * @param string $tail
+     * @return string
+     */
+    public function getCssUri(string $tail = ''): string
+    {
+        return $this->getWpThemeUri('/css' . $tail);
+    }
+
+    /**
+     * Get public js folder URI
+     * @param string $tail
+     * @return string
+     */
+    public function getJsUri(string $tail = ''): string
+    {
+        return $this->getWpThemeUri('/js' . $tail);
+    }
+
+    /**
+     * Get public images folder URI
+     * @param string $tail
+     * @return string
+     */
+    public function getImagesUri(string $tail = ''): string
+    {
+        return $this->getWpThemeUri('/images' . $tail);
+    }
+
+    /**
+     * Get public fonts folder URI
+     * @param string $tail
+     * @return string
+     */
+    public function getFontsUri(string $tail = ''): string
+    {
+        return $this->getWpThemeUri('/fonts' . $tail);
     }
 }

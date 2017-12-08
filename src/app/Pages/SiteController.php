@@ -4,6 +4,8 @@ namespace Wpci\App\Pages;
 
 use Wpci\Core\Contracts\Response;
 use Wpci\Core\DataSource\WpciQuery;
+use Wpci\Core\Facades\Assets;
+use Wpci\Core\Facades\Path;
 use Wpci\Core\Facades\View;
 use Wpci\Core\Http\PagesController;
 use Wpci\Core\Http\RegularResponse;
@@ -14,6 +16,11 @@ use Wpci\Core\Http\RegularResponse;
  */
 class SiteController extends PagesController
 {
+    public function __construct()
+    {
+        Assets::registerStyle('mystyle', Path::getCssUri('/mystyle.css'), [], (string)time());
+    }
+
     /**
      * @param \WP_Query $query
      * @return RegularResponse

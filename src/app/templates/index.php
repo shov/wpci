@@ -1,7 +1,7 @@
 <?=$data['wp-head']?>
 <div>
     <h1><?=$title?></h1>
-    <div>
+    <div class="b-content">
         <p><?=$content?></p>
     </div>
 </div>
