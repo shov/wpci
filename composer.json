@@ -1,8 +1,22 @@
 {
+  "name": "shov/wpci",
+  "description": "WordPress Continuous Integration",
+  "type": "project",
+  "keywords": ["wp", "wordpress", "wpci"],
+  "authors": [
+    {
+      "name": "Alexandr Shevchenko",
+      "email": "ls.shov@gmail.com"
+    }
+  ],
+  "license": "BSD-2-Clause",
   "require": {
     "php": ">=7.1",
     "johnpbloch/wordpress": "^4.9",
     "shov/wpci-core": "^1.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "~6.0"
   },
   "autoload": {
     "psr-4": {
