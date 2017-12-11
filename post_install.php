@@ -46,10 +46,14 @@ $functionsPhpPath = $themeFolder . '/functions.php';
 $functionsPhpContent = <<<'END'
 <?php
 /**
+ * Composer autoload
+ **/
+require ABSPATH . '/../vendor/autoload.php';
+ 
+/**
  * Load wpci app
  */
-
-$app = require(ABSPATH . '/../core/App.php');
+$app = require(ABSPATH . '/../bootstrap/app.php');
 $app->run();
 END;
 
