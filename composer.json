@@ -24,7 +24,7 @@
     }
   },
   "scripts": {
-    "post-root-package-install": [
+    "post-package-install": [
       "php post_install.php"
     ]
   }
