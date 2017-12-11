@@ -24,7 +24,7 @@
     }
   },
   "scripts": {
-    "post-create-project-cmd": [
+    "post-dependencies-solving": [
       "php post_install.php"
     ]
   }
