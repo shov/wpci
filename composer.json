@@ -24,7 +24,7 @@
     }
   },
   "scripts": {
-    "post-package-install": [
+    "post-create-project-cmd": [
       "php post_install.php"
     ]
   }
