@@ -2,19 +2,16 @@
 
 namespace Wpci\Config;
 
-use App\Pages\SiteController;
+use Wpci\Core\DataSource\WpciQuery;
 use Wpci\Core\Facades\RouterStore;
+use Wpci\Core\Facades\View;
 use Wpci\Core\Http\Action;
 use Wpci\Core\Http\WpQueryCondition;
 
 RouterStore::add(
     new WpQueryCondition('index|home|any'),
-    new Action(SiteController::class . '::index'),
+    new Action(function ($query) {
+        return View::display("<h1>{{hello}}</h1>", ['hello' => "Hello Wpci!"]);
+    }),
     'pages.home'
-);
-
-RouterStore::add(
-    new WpQueryCondition('single', ['name' => 'hello-world']),
-    new Action(SiteController::class . '::helloWorld'),
-    'pages.post.hello_world'
 );

@@ -48,12 +48,12 @@ $functionsPhpContent = <<<'END'
 /**
  * Composer autoload
  **/
-require ABSPATH . '/../vendor/autoload.php';
+require_once ABSPATH . '/../vendor/autoload.php';
  
 /**
  * Load wpci app
  */
-$app = require(ABSPATH . '/../bootstrap/app.php');
+$app = require_once ABSPATH . '/../bootstrap/app.php';
 $app->run();
 END;
 
