@@ -53,8 +53,7 @@ require_once ABSPATH . '/../vendor/autoload.php';
 /**
  * Load wpci app
  */
-$app = require_once ABSPATH . '/../bootstrap/app.php';
-$app->run();
+require_once ABSPATH . '/../bootstrap/app.php';
 END;
 
 file_put_contents($functionsPhpPath, $functionsPhpContent);
