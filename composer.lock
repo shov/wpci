@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "571e0c2ee69f8af5921a94163506aabe",
+    "content-hash": "d58feab58799218bdeb681a6cb2af1d7",
     "packages": [
         {
             "name": "composer/installers",
@@ -1691,7 +1691,7 @@
         },
         {
             "name": "shov/wpci-core",
-            "version": "dev-master",
+            "version": "0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/shov/wpci-core.git",
@@ -3560,9 +3560,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "shov/wpci-core": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

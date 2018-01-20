@@ -20,7 +20,7 @@
     "php": ">=7.1",
     "johnpbloch/wordpress": "^4.9",
     "wpackagist-plugin/advanced-custom-fields": "^4.0",
-    "shov/wpci-core": "dev-master"
+    "shov/wpci-core": "0.1"
   },
   "extra": {
     "installer-paths": {
