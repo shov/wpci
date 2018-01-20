@@ -13,6 +13,8 @@ if (!is_dir(WP_PATH)) {
     throw new \Exception("Have no installed wordpress!");
 }
 
+copy(__DIR__ . '/.env.dist', __DIR__ . '/.env');
+
 $themeFolder = WP_PATH . '/wp-content/themes/wpci';
 
 $foldersToCreate = [

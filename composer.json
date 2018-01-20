@@ -13,7 +13,7 @@
   "require": {
     "php": ">=7.1",
     "johnpbloch/wordpress": "^4.9",
-    "shov/wpci-core": "1.0"
+    "shov/wpci-core": "dev-dev"
   },
   "require-dev": {
     "phpunit/phpunit": "~6.0"
