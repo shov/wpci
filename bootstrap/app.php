@@ -7,19 +7,22 @@ use Monolog\Logger;
 use Wpci\Core\Core;
 use Wpci\Core\Facades\Path;
 
-$core = new Core(__DIR__ . '/..');
+$core = new Core();
 
+(new App(__DIR__ . DIRECTORY_SEPARATOR . '..'))
+    ->beforeRun(function (Core $core) {
 
-file_put_contents(Path::getProjectRoot('/debug.log.html'), ''); //Cleaning TODO: set in config
+        /** @var string $logPath */
+        $logPath = $core->env('DEBUG_LOG', '/debug.log.html');
 
-$core->setLogger((new Logger('general'))
-    ->pushHandler(
-        (new StreamHandler(
-            Path::getProjectRoot('/debug.log.html'), //Cleaning TODO: set in config
-            Logger::DEBUG))
-            ->setFormatter(
-                new HtmlFormatter()
-            )
-    ));
-
-(new App())->handle($core);
+        $core->setLogger((new Logger('debug'))
+            ->pushHandler(
+                (new StreamHandler(
+                    Path::getProjectRoot($logPath),
+                    Logger::DEBUG))
+                    ->setFormatter(
+                        new HtmlFormatter()
+                    )
+            ));
+    })
+    ->handle($core);

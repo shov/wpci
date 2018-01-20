@@ -2,35 +2,39 @@
 
 namespace App;
 
-use Wpci\Core\Core;
+use Wpci\Core\Contracts\AbstractApp;
+use Wpci\Core\Facades\Core;
 use Wpci\Core\Facades\RouterStore;
 use Wpci\Core\Facades\View;
-use Wpci\Core\Http\Action;
+use Wpci\Core\Flow\PromiseManager;
+use Wpci\Core\Http\Drops\Action;
 use Wpci\Core\Http\JsonResponse;
-use Wpci\Core\Http\WpQueryCondition;
+use Wpci\Core\Http\Drops\WpQueryCondition;
 use Wpci\Core\Facades\Assets;
-use Wpci\Core\Http\WpRestCondition;
+use Wpci\Core\Http\Drops\WpRestCondition;
 
-class App implements \Wpci\Core\Contracts\App
+/**
+ * The Application
+ */
+class App extends AbstractApp
 {
-
     /**
-     * Getting the core to handle it
-     * @param Core $core
-     */
-    public function handle(Core $core)
-    {
-        $core->run([$this, 'run']);
-    }
-
-    /**
-     * Waiting for the core who call it at the time
+     * The method which core call at the time to run the app
+     * @throws \Exception
      */
     public function run()
     {
         $this->registerAssets();
         $this->registerMenus();
         $this->registerRoutes();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getEnvironmentVars(): array
+    {
+        return array_merge(parent::getEnvironmentVars(), []);
     }
 
     /**
@@ -66,9 +70,10 @@ class App implements \Wpci\Core\Contracts\App
             'pages.home'
         );
 
+        /** http://localhost/wp-json/myapi/v2/hello */
         WpRestCondition::prefix('myapi/v2', function() {
 
-            /** http://localhost/wp-json/myapi/v2/hello before test don't forget turn on permalinks */
+            /** TODO: 1 before test don't forget turn on permalinks... not best behaviour */
             RouterStore::add(
                 WpRestCondition::get('/hello'),
                 new Action(function() {
@@ -83,10 +88,14 @@ class App implements \Wpci\Core\Contracts\App
 
     /**
      * Here make registration all your menu places
+     * @throws \Exception
      */
     protected function registerMenus()
     {
-        add_action('after_setup_theme', function () {
+        /** @var PromiseManager $promiseManager */
+        $promiseManager = Core::get(PromiseManager::class);
+
+        $promiseManager->addPromise('after_setup_theme', function () {
             ;
         });
     }
