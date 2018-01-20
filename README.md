@@ -1,12 +1,10 @@
-# WPCI
-
-
-[![Build Status](https://travis-ci.org/shov/wpci.svg?branch=master)](https://travis-ci.org/shov/wpci-core)
-[![Packagist](https://img.shields.io/packagist/dt/shov/wpci.svg)]()
-[![license](https://img.shields.io/github/license/shov/wpci.svg)]()
-
-
-WordPress Continuous Integration
+<p align="center"><img src="https://comet.by/img/wpci-logo-0-compiled.svg"></p>
+<p align="center"><sup>WordPress Continuous Integration</sup></p>
+<p align="center">
+<a href="https://travis-ci.org/shov/wpci-core"><img src="https://travis-ci.org/shov/wpci.svg?branch=master">
+<img src="https://img.shields.io/packagist/dt/shov/wpci.svg">
+<img https://img.shields.io/github/license/shov/wpci.svg">
+</p>
 
 ### Usage
 
