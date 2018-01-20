@@ -3,7 +3,7 @@
 <p align="center">
 <a href="https://travis-ci.org/shov/wpci-core"><img src="https://travis-ci.org/shov/wpci.svg?branch=master">
 <img src="https://img.shields.io/packagist/dt/shov/wpci.svg">
-<img https://img.shields.io/github/license/shov/wpci.svg">
+<img src="https://img.shields.io/github/license/shov/wpci.svg">
 </p>
 
 ### Usage
