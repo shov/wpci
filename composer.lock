@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "d58feab58799218bdeb681a6cb2af1d7",
+    "content-hash": "571e0c2ee69f8af5921a94163506aabe",
     "packages": [
         {
             "name": "composer/installers",
@@ -1691,16 +1691,16 @@
         },
         {
             "name": "shov/wpci-core",
-            "version": "0.1",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/shov/wpci-core.git",
-                "reference": "793ba15637d896aae0331dc9a5dc427c6b583c2e"
+                "reference": "939a5bd2b95954c7200be9e41142ee53e8412495"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/shov/wpci-core/zipball/793ba15637d896aae0331dc9a5dc427c6b583c2e",
-                "reference": "793ba15637d896aae0331dc9a5dc427c6b583c2e",
+                "url": "https://api.github.com/repos/shov/wpci-core/zipball/939a5bd2b95954c7200be9e41142ee53e8412495",
+                "reference": "939a5bd2b95954c7200be9e41142ee53e8412495",
                 "shasum": ""
             },
             "require": {
@@ -1734,7 +1734,7 @@
                 }
             ],
             "description": "The core package of Wpci, provide implementation of main functionality of Wpci",
-            "time": "2018-01-20T11:22:48+00:00"
+            "time": "2018-01-20T15:02:53+00:00"
         },
         {
             "name": "symfony/dotenv",
@@ -3560,7 +3560,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "shov/wpci-core": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
