@@ -1,10 +1,12 @@
 <p align="center"><img src="https://comet.by/img/wpci-logo-0-compiled.svg"></p>
 <p align="center"><sup>WordPress Continuous Integration</sup></p>
 <p align="center">
-<a href="https://travis-ci.org/shov/wpci-core"><img src="https://travis-ci.org/shov/wpci.svg?branch=master">
+<a href="https://travis-ci.org/shov/wpci-core"><img src="https://travis-ci.org/shov/wpci.svg?branch=master"></a>
 <img src="https://img.shields.io/packagist/dt/shov/wpci.svg">
 <img src="https://img.shields.io/github/license/shov/wpci.svg">
 </p>
+
+**Moved to <a href="https://github.com/rezonans/rezonans">this repo.</a>**
 
 ### Usage
 
